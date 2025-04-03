@@ -1,1 +1,13 @@
-This is OS project
+Steps to Install : 
+	1. Clone this repo 
+	2. Run these command : 
+		1. sudo apt install build-essential qemu-system-x86 gdb
+		2. Verify Installation : 
+			qemu-system-x86_64 --version
+	3. Run make clean
+	4. Run make
+	5. make qemu
+	6. make qemu-nox (without GUI)
+
+	7.To exit in qemu-nox
+		press ctrl+A then X
