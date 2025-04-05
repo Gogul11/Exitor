@@ -8,6 +8,12 @@
 #include "proc.h"
 
 int
+sys_exitor(void){
+  cprintf("Exitor\n");
+  return;
+}
+
+int
 sys_hello(void)
 {
 	cprintf("Hello World\n");
