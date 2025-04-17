@@ -39,3 +39,9 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
+void* xmalloc(uint);
+void xfree(void*);
+void* xcalloc(uint, uint);
+void* xrealloc(void*,uint);
+
+
