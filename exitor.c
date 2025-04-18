@@ -47,7 +47,7 @@ void exitorPrint() {
 
 int main(int argc, char *argv[])
 {
-    clearScreen();
+    clear();
     exitorPrint();
     if (argc == 2)
         ReadAndWrite(argv[1]);
