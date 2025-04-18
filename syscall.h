@@ -22,3 +22,8 @@
 #define SYS_close  21
 #define SYS_hello  22
 #define SYS_exitor 23
+#define SYS_clear  24
+#define SYS_xmalloc 25
+#define SYS_xfree  26
+#define SYS_xcalloc 27
+#define SYS_xrealloc 28

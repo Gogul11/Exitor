@@ -105,6 +105,12 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_hello(void);
 extern int sys_exitor(void);
+extern int sys_clear(void);
+extern int sys_xmalloc(void);
+extern int sys_xfree(void);
+extern int sys_xcalloc(void);
+extern int sys_xrealloc(void);
+
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -130,6 +136,11 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_hello]   sys_hello,
 [SYS_exitor]  sys_exitor,
+[SYS_clear]   sys_clear,
+[SYS_xmalloc] sys_xmalloc,
+[SYS_xfree]   sys_xfree,
+[SYS_xcalloc] sys_xcalloc,
+[SYS_xrealloc] sys_xrealloc
 };
 
 void

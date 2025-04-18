@@ -27,6 +27,7 @@ OBJS = \
 	uart.o\
 	vectors.o\
 	vm.o\
+	sysmem.o\
 
 
 # Cross-compiling (e.g., on Mac OS X)
@@ -184,6 +185,7 @@ UPROGS=\
 	_zombie\
 	_hello\
 	_exitor\
+	_clear\
 	
 
 fs.img: mkfs README $(UPROGS)
