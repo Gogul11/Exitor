@@ -7,6 +7,13 @@
 #include "mmu.h"
 #include "proc.h"
 
+int 
+sys_clear(void){
+  cprintf("\033[2J");
+  cprintf("\033[H");
+  return;
+}
+
 int
 sys_exitor(void){
   cprintf("Exitor\n");

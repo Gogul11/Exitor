@@ -25,6 +25,11 @@ int sleep(int);
 int uptime(void);
 int hello(void);
 int exitor(void);
+int clear(void);
+void* xmalloc(uint);
+void xfree(void*);
+void* xcalloc(uint, uint);
+void* xrealloc(void*,uint);
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -39,9 +44,5 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
-void* xmalloc(uint);
-void xfree(void*);
-void* xcalloc(uint, uint);
-void* xrealloc(void*,uint);
 
 

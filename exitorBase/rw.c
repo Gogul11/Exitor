@@ -5,10 +5,6 @@
 enum mode { COMMAND, INSERT };
 enum mode current_mode = COMMAND;
 
-void clearScreen(){
-    printf(1, "\033[2J");
-    printf(1, "\033[H");
-}
 
 void ReadAndWrite(char *fileName) {
     int fd = open(fileName, O_RDWR | O_CREATE);
@@ -17,9 +13,32 @@ void ReadAndWrite(char *fileName) {
         exit();
     }
 
-    // Read existing content
-    char buff[2048];
-    int ind = read(fd, buff, sizeof(buff));
+    // // Read existing content
+    // char buff[2048];
+    uint capacity = 8;
+    char *buff = (char*) xmalloc(capacity);
+    if(!buff){
+        printf(1, "Memory Allocation failed!\n");
+        exit();
+    }
+
+    int ind = 0;
+    int bytes;
+    while ((bytes = read(fd, buff+ind, capacity-ind)) > 0)
+    {
+        ind += bytes;
+        if(ind == capacity){
+            capacity *= 2;
+            char *temp_buff = (char *)xrealloc(buff, capacity);
+            if(!temp_buff){
+                printf(1, "Memory Allocation failed!\n");
+                xfree(buff);
+                exit();
+            }
+            buff = temp_buff;
+        }
+    }
+    
     int line = 1;
 
     printf(1, "\n\033[1;32mExitor - COMMAND MODE\033[0m\n");
@@ -34,15 +53,18 @@ void ReadAndWrite(char *fileName) {
         }
     }
 
-    char ch;
     int insert_index = ind;
-
+    
+    char ch;
     while (1) {
         if (current_mode == COMMAND) {
+            printf(1, "\033[999;1H");  
+            printf(1, "\033[2K");
+            printf(1, "Enter the commands that starts with (:) ");
             if (read(0, &ch, 1) > 0) {
                 if (ch == 'i') {
                     current_mode = INSERT;
-                    clearScreen();
+                    clear();
                     printf(1, "\n\033[1;34m-- INSERT MODE --\033[0m\n");
                     int il = 1;
                     // printf(1, "%d\t", il);
@@ -57,6 +79,7 @@ void ReadAndWrite(char *fileName) {
                     printf(1, "\n");
                 } else if (ch == ':') {
                     char cmd[4] = {0};
+                    
                     int len = read(0, cmd, sizeof(cmd));
 
                     if (len >= 2 && cmd[0] == 'w' && cmd[1] == 'q') {
@@ -67,23 +90,9 @@ void ReadAndWrite(char *fileName) {
                     } else if (len >= 1 && cmd[0] == 'w') {
                         fd = open(fileName, O_WRONLY | O_CREATE);
                         write(fd, buff, insert_index);
-                        close(fd);
-                        printf(1, "\n\033[1;32mFile saved.\033[0m\n");
-                        
-                        current_mode = INSERT;
-                        clearScreen();
-                        printf(1, "\n\033[1;34m-- INSERT MODE --\033[0m\n");
-                    
-                        int il = 1;
-                        for (int i = 0; i < insert_index; i++) {
-                            printf(1, "%c", buff[i]);
-                            if (buff[i] == '\n') {
-                                printf(1, "%d\t", il++);
-                            }
-                        }
+                        close(fd);    
                     }
                     else if (len >= 1 && cmd[0] == 'q') {
-                        printf(1, "BYE!\n");
                         break;
                     }
                     else{
@@ -95,7 +104,7 @@ void ReadAndWrite(char *fileName) {
             if (read(0, &ch, 1) > 0) {
                 if (ch == 27) { 
                     current_mode = COMMAND;
-                    clearScreen();
+                    clear();
                     printf(1, "\n\033[1;32m-- COMMAND MODE --\033[0m\n");
                     int cl = 1;
                     for (int i = 0; i < insert_index; i++) {
@@ -107,18 +116,30 @@ void ReadAndWrite(char *fileName) {
                     }
                 
                 } else {
-                    if (insert_index < sizeof(buff)) {
-                        buff[insert_index++] = ch;
-                        if (ch == '\n') {
-                            printf(1, "%d\t", line);
-                            line++;
+                    if (insert_index >= capacity) {
+                        capacity *= 2;
+                        char *new_buff = (char *)xrealloc(buff, capacity);
+                        if (!new_buff) {
+                            printf(1, "Reallocation failed!\n");
+                            xfree(buff);
+                            exit();
                         }
+                        buff = new_buff;
+                    }
+                    
+                    buff[insert_index++] = ch;
+                    
+                    if (ch == '\n') {
+                        printf(1, "%d\t", line);
+                        line++;
                     }
                 }
             }
         }
     }
 
+    xfree(buff);
     close(fd);
+    clear();
     exit();
 }
