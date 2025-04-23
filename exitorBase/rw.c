@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../fcntl.h"
 #include "../user.h"
-// #include "copyPaste.c"
+#include "copyPaste.c"
 
 enum mode { COMMAND, INSERT };
 enum mode current_mode = COMMAND;
@@ -97,40 +97,52 @@ void ReadAndWrite(char *fileName) {
                         break;
                     }
                     else if(len >= 1 && cmd[0] == 'y'){
-                        // char temp[8];
-                        // int start, end;
-                        // read(0, temp, sizeof(temp));
-                        // start = atoi(temp);
+                        char temp[8];
+                        int start, end;
+                        read(0, temp, sizeof(temp));
+                        start = atoi(temp);
 
-                        // read(0, temp, sizeof(temp));
-                        // end = atoi(temp);
+                        read(0, temp, sizeof(temp));
+                        end = atoi(temp);
 
-                        // copy(buff, start+1, end+1);
+                        copy(buff, start+1, end+1);
                     }
                     else if(len >=1 && cmd[0] == 'p'){
-                        // char *clip = paste();
-                        // if (!clip || clip[0] == '\0') {
-                        //     printf(1, "Clipboard is empty!\n");
-                        //     continue;
-                        // }
-                        // int clip_len = 0;
-                        // while(clip[clip_len] != '\0') clip_len++;
-
-                        // for(int i = 0; i < clip_len; i++){
-                        //     buff[insert_index++] = clip[i];
-                        // }
-
-                        // clear();
-                        // printf(1, "\n\033[1;32m-- COMMAND MODE --\033[0m\n");
-                        // int cl = 1;
-                        // for (int i = 0; i < insert_index; i++) {
-                        //     printf(1, "%c", buff[i]);
-                        //     if (buff[i] == '\n') {
-                        //         printf(1, "%d\t", cl);
-                        //         cl++;
-                        //     }
-                        // }
-
+                        char *clip = paste();
+                        if (!clip || clip[0] == '\0') {
+                            printf(1, "Clipboard is empty!\n");
+                            continue;
+                        }
+                        
+                        int clip_len = 0;
+                        while(clip[clip_len] != '\0') clip_len++;
+                        
+                        while(insert_index + clip_len >= capacity) {
+                            capacity *= 2;
+                            char *new_buff = (char *)xrealloc(buff, capacity);
+                            if (!new_buff) {
+                                printf(1, "Paste failed: Out of memory!\n");
+                                xfree(buff);
+                                exit();
+                            }
+                            buff = new_buff;
+                        }
+                    
+                        for(int i = 0; i < clip_len; i++){
+                            buff[insert_index++] = clip[i];
+                        }
+                        
+                        clear();
+                        printf(1, "\n\033[1;32m-- COMMAND MODE --\033[0m\n");
+                        int cl = 1;
+                        // printf(1, "1\t");
+                        for (int i = 0; i < insert_index; i++) {
+                            printf(1, "%c", buff[i]);
+                            if (buff[i] == '\n' && i+1 < insert_index) {
+                                printf(1, "%d\t", cl);
+                                cl++;
+                            }
+                        }
                     }
                     else{
                         

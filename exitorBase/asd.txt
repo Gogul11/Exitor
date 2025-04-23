@@ -144,3 +144,83 @@ void ReadAndWrite(char *fileName) {
     clear();
     exit();
 }
+
+
+
+#include "types.h"
+#include "defs.h"
+#include "param.h"
+#include "memlayout.h"
+#include "mmu.h"
+#include "proc.h"
+#include "x86.h"
+
+// #define CLIPBOARD_SIZE 1024
+
+// static char clipboard[CLIPBOARD_SIZE];
+static uint cap = 8;
+static char *clipboard = 0;
+
+void do_copy(char* src,int start,int end) {
+
+    clipboard = (char * )do_xmalloc(cap);
+    if(!clipboard){
+        cprintf("Allocation Failed");
+        return;
+    }
+
+    if (clipboard)
+        do_xfree(clipboard);
+
+
+    if (!src) return;
+    if(end<start){
+        cprintf("The start line is greater than end line!");
+        return;
+    }
+    int i=0;
+    int cnt=1;
+    while(src[i]!='\0' && cnt<(start-1)){
+        if(src[i++]=='\n')cnt++;
+    }
+    if(cnt!=start-1){
+        cprintf(1,"The buffer does not contains such lines!!");
+        return;
+    }
+    int j=0;
+    while(src[i]!='\0' && cnt<end){
+        if(j >= cap){
+            cap = cap * 2;
+            char *temp = (char *)do_xrealloc(clipboard, cap);
+            if(!temp){
+                cprintf( "Memory Allocation failed!\n");
+                do_xfree(clipboard);
+                return;
+            }
+            clipboard = temp;
+        }
+       clipboard[j++]=src[i];
+       if(src[i]=='\n')cnt++;
+       i++;
+    }
+    return;
+}
+
+char* do_paste() {
+    return clipboard;
+}
+
+int sys_copy(void){
+    int s, e;
+    char *buf;
+    if(argptr(0, &buf, sizeof(char *)) < 0 || argint(1, &s) < 0 || argint(2, &e) < 0) 
+        return -1;
+    
+    do_copy(buf, s, e);
+    return 0;
+}
+
+
+int sys_paste(void){
+    return (int)do_paste();
+}

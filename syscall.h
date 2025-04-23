@@ -27,3 +27,5 @@
 #define SYS_xfree  26
 #define SYS_xcalloc 27
 #define SYS_xrealloc 28
+// #define SYS_copy  29
+// #define SYS_paste 30

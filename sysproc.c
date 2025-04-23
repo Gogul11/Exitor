@@ -14,11 +14,6 @@ sys_clear(void){
   return;
 }
 
-int
-sys_exitor(void){
-  cprintf("Exitor\n");
-  return;
-}
 
 int
 sys_hello(void)

@@ -28,6 +28,8 @@ OBJS = \
 	vectors.o\
 	vm.o\
 	sysmem.o\
+	exitorPrint.o\
+	# copyPaste.o\
 
 
 # Cross-compiling (e.g., on Mac OS X)
