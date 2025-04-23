@@ -110,6 +110,8 @@ extern int sys_xmalloc(void);
 extern int sys_xfree(void);
 extern int sys_xcalloc(void);
 extern int sys_xrealloc(void);
+// extern int sys_copy(void);
+// extern int sys_paste(void);
 
 
 static int (*syscalls[])(void) = {
@@ -141,6 +143,8 @@ static int (*syscalls[])(void) = {
 [SYS_xfree]   sys_xfree,
 [SYS_xcalloc] sys_xcalloc,
 [SYS_xrealloc] sys_xrealloc
+// [SYS_copy]  sys_copy,
+// [SYS_paste] sys_paste
 };
 
 void

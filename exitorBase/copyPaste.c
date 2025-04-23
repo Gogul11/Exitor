@@ -5,7 +5,7 @@
 
 static char clipboard[CLIPBOARD_SIZE];
 
-void copyText(char* src,int start,int end) {
+void copy(char* src,int start,int end) {
     if (!src) return;
     if(end<start){
         printf(1,"The start line is greater than end line!");
@@ -29,6 +29,6 @@ void copyText(char* src,int start,int end) {
     return;
 }
 
-char* pasteText() {
+char* paste() {
     return clipboard;
 }

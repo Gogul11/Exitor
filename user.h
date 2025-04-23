@@ -30,6 +30,8 @@ void* xmalloc(uint);
 void xfree(void*);
 void* xcalloc(uint, uint);
 void* xrealloc(void*,uint);
+void copy(char *, int, int);
+char *paste(void);
 
 // ulib.c
 int stat(const char*, struct stat*);
