@@ -1,13 +1,34 @@
-Steps to Install : 
-	1. Clone this repo 
-	2. Run these command : 
-		1. sudo apt install build-essential qemu-system-x86 gdb
-		2. Verify Installation : 
-			qemu-system-x86_64 --version
-	3. Run make clean
-	4. Run make
-	5. make qemu
-	6. make qemu-nox (without GUI)
+# Exitor - XV6 Text Editor (Vim-like)
 
-	7.To exit in qemu-nox
-		press ctrl+A then X
+This project implements a simple text editor within the xv6 operating system, inspired by the functionality of the `vim` editor. It introduces a dual-mode interface, allowing users to interact with files using **Insert Mode** and **Command Mode**.
+
+## Features
+
+- **Dual Modes:**
+  - **Insert Mode**: Type and edit text in the file.
+  - **Command Mode**: Navigate, save, and perform commands.
+- **Basic Editing Capabilities**:
+  - Insert text
+  - Delete text
+- **Clipboard Support**:
+  - Copy and paste text within the editor
+
+## How It Works
+
+- On launching the editor, it starts in **Command Mode**.
+- Press `i` to enter **Insert Mode** to start editing the text.
+- In **Insert Mode**, all keystrokes are treated as file input.
+- Press `ESC` to return to **Command Mode**.
+- From **Command Mode**, you can:
+  - Press `:w` to save the file.
+  - Press `:q` to quit the editor.
+  - Press `:wq` to save and quit.
+  - Use commands to :y and specify lines for copying and :p to paste selected text.
+
+## Building & Running
+
+1. Clone the xv6 repo with this project included or add the editor code to your xv6 source.
+2. Rebuild xv6:
+   ```bash
+   make clean
+   make qemu
