@@ -1,34 +1,47 @@
-# Exitor - XV6 Text Editor (Vim-like)
+# Exitor - Vim-like Text Editor for XV6
 
-This project implements a simple text editor within the xv6 operating system, inspired by the functionality of the `vim` editor. It introduces a dual-mode interface, allowing users to interact with files using **Insert Mode** and **Command Mode**.
+**Exitor** is a simple text editor implemented within the [xv6](https://pdos.csail.mit.edu/6.828/2022/xv6.html) operating system, inspired by the classic functionality of `vim`. It features a **dual-mode interface**, allowing basic editing through **Insert Mode** and file/command operations via **Command Mode**.
 
-## Features
+---
 
-- **Dual Modes:**
-  - **Insert Mode**: Type and edit text in the file.
-  - **Command Mode**: Navigate, save, and perform commands.
-- **Basic Editing Capabilities**:
-  - Insert text
-  - Delete text
-- **Clipboard Support**:
-  - Copy and paste text within the editor
+##Features
 
-## How It Works
+- **Dual Editing Modes**
+  - **Insert Mode**: Type and edit file content directly.
+  - **Command Mode**: Navigate, save, and issue editor commands.
 
-- On launching the editor, it starts in **Command Mode**.
-- Press `i` to enter **Insert Mode** to start editing the text.
-- In **Insert Mode**, all keystrokes are treated as file input.
+- **Basic Editing Capabilities**
+  - Insert and delete text
+  - Navigate file contents
+
+- **Clipboard Support**
+  - Copy (`:y`) and paste (`:p`) lines of text
+
+---
+
+## 🛠️ How It Works
+
+- The editor starts in **Command Mode**.
+- Press `i` to switch to **Insert Mode** and start typing.
 - Press `ESC` to return to **Command Mode**.
-- From **Command Mode**, you can:
-  - Press `:w` to save the file.
-  - Press `:q` to quit the editor.
-  - Press `:wq` to save and quit.
-  - Use commands to :y and specify lines for copying and :p to paste selected text.
 
-## Building & Running
+### 📚 Supported Commands (in Command Mode)
 
-1. Clone the xv6 repo with this project included or add the editor code to your xv6 source.
+| Command | Description           |
+|---------|-----------------------|
+| `:w`    | Save the current file |
+| `:q`    | Quit the editor       |
+| `:wq`   | Save and quit         |
+| `:y`    | Yank (copy) lines     |
+| `:p`    | Paste yanked content  |
+
+---
+
+## 🧪 Building & Running
+
+1. Clone or integrate this project into your xv6 source tree.
 2. Rebuild xv6:
+
    ```bash
    make clean
    make qemu
