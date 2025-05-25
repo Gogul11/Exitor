@@ -48,10 +48,9 @@
 2. Rebuild xv6 using:
 
    ```bash
-   make clean
-   make qemu
+   make clean 
+   make qemu-nox (Use qemu-nox for better UI)
    ```
-
 ---
 
 ## Usage
